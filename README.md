@@ -1,6 +1,6 @@
 # Hospital-DBMS
 Hospital-DBMS is a database management system that contains all the details required for the hospital’s official use and the hospital’s employees as the end-users. </br>
-This is a project was implemented in four phases: 
+This is project was implemented in four phases: 
 
 - **Phase 1** - Defining the mini-world and listing the database requirements and the functional requirements.
 - **Phase 2** - Use the requirements defined to draw out an ER diagram.
