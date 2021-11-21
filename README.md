@@ -8,7 +8,7 @@ This is project was implemented in four phases:
 - **Phase 4** - Set up the hospital database in SQL using the MySQL CLI and create a CLI using Python to access it. 
 
 ## Queries that can be run using the CLI
-We have used MySQL and PyMySQL client library to interact with the SQL Database. We have implemented several functional requirements, some of which have been listed below: </br>
+We have used MySQL and PyMySQL client library to interact with the SQL Database. We have implemented several functional requirements, some of which have been listed below: </br></br>
 **1. View details**</br>
 The details of several tables namely, Patients, Doctors, Appointments, Departments, Nurses, Services and Staff can be obtained using this query after the user chooses the name of the table.</br>
 
@@ -38,8 +38,6 @@ This query acts as a projection to give the user the details of all patients in 
 
 **10. Display doctors with a certain specialisation**</br>
 This query provides a list of all doctors corresponding to the specialization given by the user.</br>
-
-**11. Logout**</br>
 
 ## Running
 
