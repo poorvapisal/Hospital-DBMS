@@ -1,0 +1,509 @@
+-- MySQL dump 10.13  Distrib 8.0.26, for Linux (x86_64)
+--
+-- Host: localhost    Database: HOSPITAL
+-- ------------------------------------------------------
+-- Server version	8.0.26-0ubuntu0.21.04.3
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ADMINISTRATIVE`
+--
+
+DROP TABLE IF EXISTS `ADMINISTRATIVE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ADMINISTRATIVE` (
+  `STAFF_ID` int NOT NULL,
+  `DEPARTMENT_ID` int NOT NULL,
+  KEY `ADMINISTRATIVE_ibfk_1` (`STAFF_ID`),
+  KEY `ADMINISTRATIVE_ibfk_2` (`DEPARTMENT_ID`),
+  CONSTRAINT `ADMINISTRATIVE_ibfk_1` FOREIGN KEY (`STAFF_ID`) REFERENCES `STAFF` (`STAFF_ID`),
+  CONSTRAINT `ADMINISTRATIVE_ibfk_2` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `DEPARTMENT` (`DEPARTMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ADMINISTRATIVE`
+--
+
+LOCK TABLES `ADMINISTRATIVE` WRITE;
+/*!40000 ALTER TABLE `ADMINISTRATIVE` DISABLE KEYS */;
+INSERT INTO `ADMINISTRATIVE` VALUES (2,4),(5,5);
+/*!40000 ALTER TABLE `ADMINISTRATIVE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `APPOINTMENTS`
+--
+
+DROP TABLE IF EXISTS `APPOINTMENTS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `APPOINTMENTS` (
+  `APPOINTMENT_ID` int NOT NULL,
+  `PATIENT_ID` int NOT NULL,
+  `DOCTOR_ID` int NOT NULL,
+  `NURSE_ID` int NOT NULL,
+  `SERVICE_ID` int NOT NULL,
+  `DATE_TIME` timestamp NOT NULL,
+  `ROOM_NUMBER` int NOT NULL,
+  PRIMARY KEY (`APPOINTMENT_ID`),
+  KEY `APPOINTMENTS_ibfk_1` (`PATIENT_ID`),
+  KEY `APPOINTMENTS_ibfk_2` (`DOCTOR_ID`),
+  KEY `APPOINTMENTS_ibfk_3` (`NURSE_ID`),
+  KEY `APPOINTMENTS_ibfk_4` (`SERVICE_ID`),
+  CONSTRAINT `APPOINTMENTS_ibfk_1` FOREIGN KEY (`PATIENT_ID`) REFERENCES `PATIENT` (`PATIENT_ID`) ON DELETE CASCADE,
+  CONSTRAINT `APPOINTMENTS_ibfk_2` FOREIGN KEY (`DOCTOR_ID`) REFERENCES `DOCTORS` (`DOCTOR_ID`) ON DELETE CASCADE,
+  CONSTRAINT `APPOINTMENTS_ibfk_3` FOREIGN KEY (`NURSE_ID`) REFERENCES `NURSES` (`NURSE_ID`),
+  CONSTRAINT `APPOINTMENTS_ibfk_4` FOREIGN KEY (`SERVICE_ID`) REFERENCES `SERVICES` (`SERVICE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `APPOINTMENTS`
+--
+
+LOCK TABLES `APPOINTMENTS` WRITE;
+/*!40000 ALTER TABLE `APPOINTMENTS` DISABLE KEYS */;
+INSERT INTO `APPOINTMENTS` VALUES (1,1,2,3,1,'2021-10-23 10:00:00',101),(2,3,3,2,4,'2021-11-12 08:00:00',103),(3,2,2,1,3,'2021-10-31 12:00:00',105);
+/*!40000 ALTER TABLE `APPOINTMENTS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DEPARTMENT`
+--
+
+DROP TABLE IF EXISTS `DEPARTMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DEPARTMENT` (
+  `DEPARTMENT_ID` int NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `LOCATION` varchar(255) NOT NULL,
+  PRIMARY KEY (`DEPARTMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPARTMENT`
+--
+
+LOCK TABLES `DEPARTMENT` WRITE;
+/*!40000 ALTER TABLE `DEPARTMENT` DISABLE KEYS */;
+INSERT INTO `DEPARTMENT` VALUES (1,'Cardiology','Block A'),(2,'Emergency','Block B'),(3,'Neurology','Block A'),(4,'Pathology','Block B'),(5,'Intensive care unit','Block A'),(6,'General','Block B');
+/*!40000 ALTER TABLE `DEPARTMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DOCTORS`
+--
+
+DROP TABLE IF EXISTS `DOCTORS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DOCTORS` (
+  `DOCTOR_ID` int NOT NULL,
+  `DEPARTMENT_ID` int NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL,
+  `SALARY` float NOT NULL,
+  PRIMARY KEY (`DOCTOR_ID`),
+  KEY `DOCTORS_ibfk_1` (`DEPARTMENT_ID`),
+  CONSTRAINT `DOCTORS_ibfk_1` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `DEPARTMENT` (`DEPARTMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DOCTORS`
+--
+
+LOCK TABLES `DOCTORS` WRITE;
+/*!40000 ALTER TABLE `DOCTORS` DISABLE KEYS */;
+INSERT INTO `DOCTORS` VALUES (1,1,'Linda Martin','LA, USA',50000),(2,1,'Cassandra Lee','Washington, USA',70000),(3,4,'Tara Krishnan','Bangalore, India',90000),(4,5,'Priya Srinivas','Chennai, India',20000);
+/*!40000 ALTER TABLE `DOCTORS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DOCTORS_PHONENUMBER`
+--
+
+DROP TABLE IF EXISTS `DOCTORS_PHONENUMBER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DOCTORS_PHONENUMBER` (
+  `DOCTOR_ID` int NOT NULL,
+  `PHONE_NUMBER` mediumtext NOT NULL,
+  KEY `DOCTORS_PHONENUMBER_ibfk_1` (`DOCTOR_ID`),
+  CONSTRAINT `DOCTORS_PHONENUMBER_ibfk_1` FOREIGN KEY (`DOCTOR_ID`) REFERENCES `DOCTORS` (`DOCTOR_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DOCTORS_PHONENUMBER`
+--
+
+LOCK TABLES `DOCTORS_PHONENUMBER` WRITE;
+/*!40000 ALTER TABLE `DOCTORS_PHONENUMBER` DISABLE KEYS */;
+INSERT INTO `DOCTORS_PHONENUMBER` VALUES (1,'3456789021'),(2,'2345329870'),(3,'2345329770'),(3,'7562340615'),(4,'9822340615');
+/*!40000 ALTER TABLE `DOCTORS_PHONENUMBER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DOCTORS_SPECIALIZATION`
+--
+
+DROP TABLE IF EXISTS `DOCTORS_SPECIALIZATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DOCTORS_SPECIALIZATION` (
+  `DOCTOR_ID` int NOT NULL,
+  `SPECIALIZATION` varchar(255) DEFAULT NULL,
+  KEY `DOCTORS_SPECIALIZATION_ibfk_1` (`DOCTOR_ID`),
+  CONSTRAINT `DOCTORS_SPECIALIZATION_ibfk_1` FOREIGN KEY (`DOCTOR_ID`) REFERENCES `DOCTORS` (`DOCTOR_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DOCTORS_SPECIALIZATION`
+--
+
+LOCK TABLES `DOCTORS_SPECIALIZATION` WRITE;
+/*!40000 ALTER TABLE `DOCTORS_SPECIALIZATION` DISABLE KEYS */;
+INSERT INTO `DOCTORS_SPECIALIZATION` VALUES (1,'Therapist'),(2,'ENT'),(3,'Cardio'),(4,'Dermatologist');
+/*!40000 ALTER TABLE `DOCTORS_SPECIALIZATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ILLNESS`
+--
+
+DROP TABLE IF EXISTS `ILLNESS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ILLNESS` (
+  `PATIENT_ID` int NOT NULL,
+  `NAME_OF_ILLNESS` varchar(255) NOT NULL,
+  `MEDICINE` varchar(255) NOT NULL,
+  KEY `ILLNESS_ibfk_1` (`PATIENT_ID`),
+  CONSTRAINT `ILLNESS_ibfk_1` FOREIGN KEY (`PATIENT_ID`) REFERENCES `PATIENT` (`PATIENT_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ILLNESS`
+--
+
+LOCK TABLES `ILLNESS` WRITE;
+/*!40000 ALTER TABLE `ILLNESS` DISABLE KEYS */;
+INSERT INTO `ILLNESS` VALUES (1,'Corona','Remdisivir'),(2,'Fever','Crocin Advance'),(3,'Cough','Vicks');
+/*!40000 ALTER TABLE `ILLNESS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `INVENTORY`
+--
+
+DROP TABLE IF EXISTS `INVENTORY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `INVENTORY` (
+  `DEPARTMENT_ID` int NOT NULL,
+  `ITEM_NAME` varchar(255) NOT NULL,
+  `CURRENT_COUNT` int NOT NULL,
+  `NEEDED_COUNT` int NOT NULL,
+  `PRICE` float NOT NULL,
+  KEY `INVENTORY_ibfk_1` (`DEPARTMENT_ID`),
+  CONSTRAINT `INVENTORY_ibfk_1` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `DEPARTMENT` (`DEPARTMENT_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `INVENTORY`
+--
+
+LOCK TABLES `INVENTORY` WRITE;
+/*!40000 ALTER TABLE `INVENTORY` DISABLE KEYS */;
+INSERT INTO `INVENTORY` VALUES (1,'Test tube',200,220,20),(2,'Sthethoscope',25,55,2000),(3,'Brain',1,3,100000000),(4,'Pasteur Pipettes',20,26,20000),(5,'Oxygen Cylinders',200,400,50000),(6,'Thermometer',20,20,30);
+/*!40000 ALTER TABLE `INVENTORY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MAINTENANCE`
+--
+
+DROP TABLE IF EXISTS `MAINTENANCE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MAINTENANCE` (
+  `STAFF_ID` int NOT NULL,
+  `AREA` varchar(255) NOT NULL,
+  KEY `MAINTENANCE_ibfk_1` (`STAFF_ID`),
+  CONSTRAINT `MAINTENANCE_ibfk_1` FOREIGN KEY (`STAFF_ID`) REFERENCES `STAFF` (`STAFF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MAINTENANCE`
+--
+
+LOCK TABLES `MAINTENANCE` WRITE;
+/*!40000 ALTER TABLE `MAINTENANCE` DISABLE KEYS */;
+INSERT INTO `MAINTENANCE` VALUES (3,'Block A'),(6,'Block B');
+/*!40000 ALTER TABLE `MAINTENANCE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `NURSES`
+--
+
+DROP TABLE IF EXISTS `NURSES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `NURSES` (
+  `NURSE_ID` int NOT NULL,
+  `DEPARTMENT_ID` int NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL,
+  `SALARY` float NOT NULL,
+  PRIMARY KEY (`NURSE_ID`),
+  KEY `NURSES_ibfk_1` (`DEPARTMENT_ID`),
+  CONSTRAINT `NURSES_ibfk_1` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `DEPARTMENT` (`DEPARTMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `NURSES`
+--
+
+LOCK TABLES `NURSES` WRITE;
+/*!40000 ALTER TABLE `NURSES` DISABLE KEYS */;
+INSERT INTO `NURSES` VALUES (1,1,'Alice Cooper','California, USA',90000),(2,2,'John Smith','Seattle, USA',75000),(3,4,'Sai Vangala','Bangalore, India',90000),(4,4,'Priya Manoj','Chennai, India',20000);
+/*!40000 ALTER TABLE `NURSES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `NURSES_PHONENUMBER`
+--
+
+DROP TABLE IF EXISTS `NURSES_PHONENUMBER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `NURSES_PHONENUMBER` (
+  `NURSE_ID` int NOT NULL,
+  `PHONE_NUMBER` mediumtext NOT NULL,
+  KEY `NURSES_PHONENUMBER_ibfk_1` (`NURSE_ID`),
+  CONSTRAINT `NURSES_PHONENUMBER_ibfk_1` FOREIGN KEY (`NURSE_ID`) REFERENCES `NURSES` (`NURSE_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `NURSES_PHONENUMBER`
+--
+
+LOCK TABLES `NURSES_PHONENUMBER` WRITE;
+/*!40000 ALTER TABLE `NURSES_PHONENUMBER` DISABLE KEYS */;
+INSERT INTO `NURSES_PHONENUMBER` VALUES (1,'2250789021'),(2,'8881329870'),(3,'1145368770'),(3,'3562940015'),(4,'9812354615');
+/*!40000 ALTER TABLE `NURSES_PHONENUMBER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PATIENT`
+--
+
+DROP TABLE IF EXISTS `PATIENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PATIENT` (
+  `PATIENT_ID` int NOT NULL,
+  `FIRST_NAME` varchar(255) NOT NULL,
+  `MIDDLE_NAME` varchar(255) NOT NULL,
+  `LAST_NAME` varchar(255) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL,
+  `DOB` date NOT NULL,
+  PRIMARY KEY (`PATIENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PATIENT`
+--
+
+LOCK TABLES `PATIENT` WRITE;
+/*!40000 ALTER TABLE `PATIENT` DISABLE KEYS */;
+INSERT INTO `PATIENT` VALUES (1,'Taylor','Alison','Swift','New York,USA','1989-12-13'),(2,'Jethalal','Champaklal','Gada','Gokuldham,Goregaon','1970-12-27'),(3,'Ben','Ten','Wyatt','Pawnee,USA','1990-03-23');
+/*!40000 ALTER TABLE `PATIENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PATIENT_PHONENUMBER`
+--
+
+DROP TABLE IF EXISTS `PATIENT_PHONENUMBER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PATIENT_PHONENUMBER` (
+  `PATIENT_ID` int NOT NULL,
+  `PHONE_NUMBER` mediumtext NOT NULL,
+  KEY `PATIENT_PHONENUMBER_ibfk_1` (`PATIENT_ID`),
+  CONSTRAINT `PATIENT_PHONENUMBER_ibfk_1` FOREIGN KEY (`PATIENT_ID`) REFERENCES `PATIENT` (`PATIENT_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PATIENT_PHONENUMBER`
+--
+
+LOCK TABLES `PATIENT_PHONENUMBER` WRITE;
+/*!40000 ALTER TABLE `PATIENT_PHONENUMBER` DISABLE KEYS */;
+INSERT INTO `PATIENT_PHONENUMBER` VALUES (1,'4568958634'),(1,'5468969584'),(2,'7443998763'),(3,'9835698754');
+/*!40000 ALTER TABLE `PATIENT_PHONENUMBER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SECURITY`
+--
+
+DROP TABLE IF EXISTS `SECURITY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SECURITY` (
+  `STAFF_ID` int NOT NULL,
+  `AREA` varchar(255) NOT NULL,
+  KEY `SECURITY_ibfk_1` (`STAFF_ID`),
+  CONSTRAINT `SECURITY_ibfk_1` FOREIGN KEY (`STAFF_ID`) REFERENCES `STAFF` (`STAFF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SECURITY`
+--
+
+LOCK TABLES `SECURITY` WRITE;
+/*!40000 ALTER TABLE `SECURITY` DISABLE KEYS */;
+INSERT INTO `SECURITY` VALUES (1,'Block A'),(8,'Block B');
+/*!40000 ALTER TABLE `SECURITY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SERVICES`
+--
+
+DROP TABLE IF EXISTS `SERVICES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SERVICES` (
+  `SERVICE_ID` int NOT NULL,
+  `SERVICE_NAME` varchar(255) NOT NULL,
+  `COST` float NOT NULL,
+  `DESCRIPTION` varchar(255) NOT NULL,
+  PRIMARY KEY (`SERVICE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SERVICES`
+--
+
+LOCK TABLES `SERVICES` WRITE;
+/*!40000 ALTER TABLE `SERVICES` DISABLE KEYS */;
+INSERT INTO `SERVICES` VALUES (1,'Blood tests',1000,'Complete blood count'),(2,'X-ray',700,'Find out what your bone looks like'),(3,'CT-Scan',6000,'detecting diseases and injuries'),(4,'Vaccination',600,'Protection from diseases');
+/*!40000 ALTER TABLE `SERVICES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `STAFF`
+--
+
+DROP TABLE IF EXISTS `STAFF`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `STAFF` (
+  `STAFF_ID` int NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL,
+  `SALARY` float NOT NULL,
+  PRIMARY KEY (`STAFF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `STAFF`
+--
+
+LOCK TABLES `STAFF` WRITE;
+/*!40000 ALTER TABLE `STAFF` DISABLE KEYS */;
+INSERT INTO `STAFF` VALUES (1,'ABC','mumbai',25000),(2,'BCD','bangalore',25000),(3,'CDE','hyderabad',25000),(4,'DEF','new york',25000),(5,'EFG','london',25000),(6,'FGH','mumbai',25000),(7,'GHI','bangalore',25000),(8,'HIJ','london',25000);
+/*!40000 ALTER TABLE `STAFF` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `STAFF_PHONENUMBER`
+--
+
+DROP TABLE IF EXISTS `STAFF_PHONENUMBER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `STAFF_PHONENUMBER` (
+  `STAFF_ID` int NOT NULL,
+  `PHONE_NUMBER` mediumtext NOT NULL,
+  KEY `STAFF_PHONENUMBER_ibfk_1` (`STAFF_ID`),
+  CONSTRAINT `STAFF_PHONENUMBER_ibfk_1` FOREIGN KEY (`STAFF_ID`) REFERENCES `STAFF` (`STAFF_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `STAFF_PHONENUMBER`
+--
+
+LOCK TABLES `STAFF_PHONENUMBER` WRITE;
+/*!40000 ALTER TABLE `STAFF_PHONENUMBER` DISABLE KEYS */;
+INSERT INTO `STAFF_PHONENUMBER` VALUES (1,'911'),(2,'1234567890'),(3,'987654321'),(4,'1234509876'),(5,'987612345'),(6,'8888888888'),(7,'9987060015'),(8,'1124394165');
+/*!40000 ALTER TABLE `STAFF_PHONENUMBER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TRANSPORT`
+--
+
+DROP TABLE IF EXISTS `TRANSPORT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TRANSPORT` (
+  `STAFF_ID` int NOT NULL,
+  `VEHICLE_TYPE` varchar(255) NOT NULL,
+  `LICENCE_AND_REGISTRATION` varchar(255) NOT NULL,
+  KEY `TRANSPORT_ibfk_1` (`STAFF_ID`),
+  CONSTRAINT `TRANSPORT_ibfk_1` FOREIGN KEY (`STAFF_ID`) REFERENCES `STAFF` (`STAFF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TRANSPORT`
+--
+
+LOCK TABLES `TRANSPORT` WRITE;
+/*!40000 ALTER TABLE `TRANSPORT` DISABLE KEYS */;
+INSERT INTO `TRANSPORT` VALUES (4,'Ambulance','#43653736'),(7,'Truck','#34656565');
+/*!40000 ALTER TABLE `TRANSPORT` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-10-26 12:20:04
